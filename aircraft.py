@@ -4,9 +4,8 @@ import sys
 class Aircraft:
     def __init__(self, initMessage):
         self.ident, self.lastMessageRecieved, self.callsign, self.alt, self.groundSpeed, self.track, self.latitude, \
-        self.longitude, self.verticalRate, self.squawk, self.isInEmergency, self.isIdent, self.isOnGround = \
+            self.longitude, self.verticalRate, self.squawk, self.isInEmergency, self.isIdent, self.isOnGround = \
             [initMessage[i] for i in (4, 7, 10, 11, 12, 13, 14, 15, 16, 17, 19, 20, 21)]
-
 
     def assign_field(self, ind, field):
         if ind < 7 or ind in (8, 9, 18) or ind > 21:
@@ -38,11 +37,10 @@ class Aircraft:
         else:
             pass  # Should not be possible
 
-
     def update(self, msg):
-        if(msg[4] != self.ident):
+        if msg[4] != self.ident:
             print("ERROR: Aircraft identities mixed up! Information no longer accurate!", file=sys.stderr)
             pass
         for ind, field in enumerate(msg):
-            if field != b'':
+            if field != '':
                 self.assign_field(ind, field)
