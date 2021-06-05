@@ -1,17 +1,21 @@
 import sys
+import time
 
 
 class Aircraft:
     def __init__(self, initMessage):
-        self.ident, self.lastMessageRecieved, self.callsign, self.alt, self.groundSpeed, self.track, self.latitude, \
-            self.longitude, self.verticalRate, self.squawk, self.isInEmergency, self.isIdent, self.isOnGround = \
-            [initMessage[i] for i in (4, 7, 10, 11, 12, 13, 14, 15, 16, 17, 19, 20, 21)]
+        try:
+            self.ident, self.callsign, self.alt, self.groundSpeed, self.track, self.latitude, \
+                self.longitude, self.verticalRate, self.squawk, self.isInEmergency, self.isIdent, self.isOnGround = \
+                [initMessage[i] for i in (4, 10, 11, 12, 13, 14, 15, 16, 17, 19, 20, 21)]
+            self.lastMessageRecieved = time.time()
+        except IndexError:
+            print("indexerror message type:", initMessage[1])
+            print("message length:", len(initMessage))
 
     def assign_field(self, ind, field):
-        if ind < 7 or ind in (8, 9, 18) or ind > 21:
+        if ind < 10 or ind == 18 or ind > 21:
             pass  # We don't care about this info. Also should never be more than 21.
-        elif ind == 7:
-            self.lastMessageRecieved = field
         elif ind == 10:
             self.callsign = field
         elif ind == 11:
@@ -38,6 +42,7 @@ class Aircraft:
             pass  # Should not be possible
 
     def update(self, msg):
+        self.lastMessageRecieved = time.time()
         if msg[4] != self.ident:
             print("ERROR: Aircraft identities mixed up! Information no longer accurate!", file=sys.stderr)
             pass
