@@ -65,7 +65,6 @@ def main():
     visible_aircraft = man.dict({})
     data_stream_thread = setup_piaware_data_stream(visible_aircraft)
     data_stream_thread.start()
-    # TODO: Fix the cleanup thread
     cleanup_thread = Process(target=aircraft_cleanup_thread, args=(visible_aircraft, 45))
     cleanup_thread.start()
 

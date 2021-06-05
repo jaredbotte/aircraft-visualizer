@@ -42,6 +42,7 @@ class Aircraft:
             pass  # Should not be possible
 
     def update(self, msg):
+        # TODO: don't bother looping through the first portion of the list
         self.lastMessageRecieved = time.time()
         if msg[4] != self.ident:
             print("ERROR: Aircraft identities mixed up! Information no longer accurate!", file=sys.stderr)
