@@ -14,6 +14,15 @@ class Aircraft:
             print("message length:", len(initMessage))
 
     def assign_field(self, ind, field):
+        """Assign a parameter based on a field
+
+        This function assigns a parameter to a value given by the ADS-B data
+
+        :param ind: The index of the BaseStation message being parsed
+        :type ind: int
+        :param field: The value to set the parameter to
+        :type field: string
+        """
         if ind < 10 or ind == 18 or ind > 21:
             pass  # We don't care about this info. Also should never be more than 21.
         elif ind == 10:
@@ -42,6 +51,13 @@ class Aircraft:
             pass  # Should not be possible
 
     def update(self, msg):
+        """Update ADS-B data for the aircraft
+
+        This function updates the current parameters of the plane based off the most recent ADS-B data
+
+        :param msg: The message array
+        :type msg: string[]
+        """
         # TODO: don't bother looping through the first portion of the list
         self.lastMessageRecieved = time.time()
         if msg[4] != self.ident:
